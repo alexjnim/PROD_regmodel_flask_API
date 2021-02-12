@@ -88,13 +88,13 @@ workflows:
   test-all:
     jobs:
       - test_regression_model_py37
-      - train_and_upload_model
       - test_ml_api_py37
+      - train_and_upload_model
       - test_ml_api_py37:
           requires:
             - test_regression_model_py37
             - train_and_upload_model
-          filters:
-            branches:
-              only:
-                - master
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
