@@ -61,13 +61,13 @@ jobs:
           name: Install requirements
           command: |
             source venv/bin/activate
-            pip install -r /packages/housing_model/requirements.txt
+            pip install -r packages/housing_model/requirements.txt
       - run:
           name: Train model
           command: |
             source venv/bin/activate
             PYTHONPATH=./packages/housing_model
-            python3 /packages/housing_model/housingmodel/train_pipeline.py
+            python3 packages/housing_model/housingmodel/train_pipeline.py
       - run:
           name: Publish model to Gemfury
           command: |
