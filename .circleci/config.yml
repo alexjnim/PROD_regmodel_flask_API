@@ -30,7 +30,7 @@ prepare_tox: &prepare_tox
 #       # ./scripts/fetch_dataset.sh
 
 jobs:
-  test_regression_model_py37:
+  test_model_py37:
     docker:
       - image: circleci/python:3.7.4
     working_directory: ~/project/packages/housing_model
@@ -44,7 +44,7 @@ jobs:
             pip install --user tox
             tox
 
-  test_ml_api_py37:
+  test_api_py37:
     docker:
       - image: circleci/python:3.7.4
     working_directory: ~/project/packages/housing_api
@@ -81,20 +81,16 @@ jobs:
           command: |
             . venv/bin/activate
             chmod +x ./scripts/publish_model.sh
-            ./scripts/publish_model.sh ./packages/regression_model/
+# tell the sh script where to find model setup.py file
+            ./scripts/publish_model.sh ./packages/housing_model/
 
 workflows:
   version: 2
   test-all:
     jobs:
-      - test_regression_model_py37
-      - test_ml_api_py37
+      - test_model_py37
+      - test_api_py37
       - train_and_upload_model
-      - test_ml_api_py37:
+      - test_api_py37:
           requires:
-            - test_regression_model_py37
             - train_and_upload_model
-          # filters:
-          #   branches:
-          #     only:
-          #       - master
