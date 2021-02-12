@@ -45,7 +45,7 @@ def validate_inputs(input_data):
     """Check prediction inputs against schema."""
 
     # set many=True to allow passing in a list
-    schema = HouseDataRequestSchema(strict=True, many=True)
+    schema = HouseDataRequestSchema(many=True)
 
     # this will use Marshmallow to validate the data against the schema and  raises a ValidationError error when invalid data are passed in.
     errors = []
