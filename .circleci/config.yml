@@ -67,7 +67,7 @@ jobs:
           command: |
             source venv/bin/activate
             PYTHONPATH=./packages/housing_model
-            python3 packages/housing_model/housingmodel/train_pipeline.py
+            python3 train_pipeline.py
       - run:
           name: Publish model to Gemfury
           command: |
