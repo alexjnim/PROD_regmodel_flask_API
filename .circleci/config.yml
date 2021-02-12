@@ -66,6 +66,11 @@ jobs:
       - checkout:
           path: ~/project
       - run:
+          name: Create venv
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+      - run:
           name: Install requirements
           command: |
             . venv/bin/activate
