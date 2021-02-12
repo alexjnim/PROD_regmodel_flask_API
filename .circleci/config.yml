@@ -33,7 +33,7 @@ jobs:
   test_model_py37:
     docker:
       - image: circleci/python:3.7.4
-    working_directory: ~/project
+    working_directory: ~/project/packages/housing_model
     steps:
       - checkout:
           path: ~/project
@@ -47,7 +47,7 @@ jobs:
   train_and_upload_model:
     docker:
       - image: circleci/python:3.7.4
-    working_directory: ~/project
+    working_directory: ~/project/packages/housing_model
     steps:
       - checkout:
           path: ~/project
@@ -61,7 +61,7 @@ jobs:
           name: Install requirements
           command: |
             source venv/bin/activate
-            pip install -r packages/housing_model/requirements.txt
+            pip install -r requirements.txt
       - run:
           name: Train model
           command: |
@@ -78,7 +78,7 @@ jobs:
   test_api_py37:
     docker:
       - image: circleci/python:3.7.4
-    working_directory: ~/project
+    working_directory: ~/project/packages/housing_api
     steps:
       - checkout:
           path: ~/project
