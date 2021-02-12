@@ -58,7 +58,7 @@ jobs:
             pip install --user tox
             tox
 
-  train_and_upload_regression_model:
+  train_and_upload_model:
     docker:
       - image: circleci/python:3.7.4
     working_directory: ~/project/packages/housing_model
@@ -89,8 +89,8 @@ workflows:
     jobs:
       - test_regression_model_py37
       - test_ml_api_py37
-      - train_and_upload_regression_model
-      - train_and_upload_regression_model:
+      - train_and_upload_model
+      - train_and_upload_model:
           requires:
             - test_regression_model_py37
             - test_ml_api_py37
