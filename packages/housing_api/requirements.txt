@@ -1,0 +1,11 @@
+# api
+flask>=1.1.1,<1.2.0
+
+# schema validation
+marshmallow==2.17.0
+
+# housing regression model
+/Users/alex.nim@ibm.com/Desktop/pfull_production/packages/housing_model
+
+# Deployment
+gunicorn==19.9.0
