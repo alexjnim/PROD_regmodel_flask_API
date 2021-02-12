@@ -33,7 +33,7 @@ jobs:
   test_model_py37:
     docker:
       - image: circleci/python:3.7.4
-    working_directory: ~/project/packages/housing_model
+    working_directory: ~/project
     steps:
       - checkout:
           path: ~/project
@@ -44,24 +44,10 @@ jobs:
             pip install --user tox
             tox
 
-  test_api_py37:
-    docker:
-      - image: circleci/python:3.7.4
-    working_directory: ~/project/packages/housing_api
-    steps:
-      - checkout:
-          path: ~/project
-      - run:
-          name: Run API tests with Python 3.7.4
-          command: |
-            sudo pip install --upgrade pip
-            pip install --user tox
-            tox
-
   train_and_upload_model:
     docker:
       - image: circleci/python:3.7.4
-    working_directory: ~/project/packages/housing_model
+    working_directory: ~/project
     steps:
       - checkout:
           path: ~/project
@@ -74,12 +60,12 @@ jobs:
       - run:
           name: Install requirements
           command: |
-            . venv/bin/activate
+            source venv/bin/activate
             pip install -r packages/housing_model/requirements.txt
       - run:
           name: Train model
           command: |
-            . venv/bin/activate
+            source venv/bin/activate
             PYTHONPATH=./packages/housing_model
             python3 packages/housing_model/housingmodel/train_pipeline.py
       - run:
@@ -88,6 +74,20 @@ jobs:
             . venv/bin/activate
             chmod +x ./scripts/publish_model.sh
             ./scripts/publish_model.sh ./packages/housing_model/
+
+  test_api_py37:
+    docker:
+      - image: circleci/python:3.7.4
+    working_directory: ~/project
+    steps:
+      - checkout:
+          path: ~/project
+      - run:
+          name: Run API tests with Python 3.7.4
+          command: |
+            sudo pip install --upgrade pip
+            pip install --user tox
+            tox
 
 workflows:
   version: 2
