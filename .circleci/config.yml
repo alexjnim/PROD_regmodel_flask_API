@@ -81,7 +81,6 @@ jobs:
           command: |
             . venv/bin/activate
             chmod +x ./scripts/publish_model.sh
-# tell the sh script where to find model setup.py file
             ./scripts/publish_model.sh ./packages/housing_model/
 
 workflows:
