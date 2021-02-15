@@ -24,7 +24,7 @@ jobs:
           command: |
             source venv/bin/activate
             pip install -r packages/housing_model/requirements.txt
-            pip install -e packages/housing_model
+
       - run:
           name: Train model
           command: |
