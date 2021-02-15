@@ -24,13 +24,13 @@ jobs:
           command: |
             source venv/bin/activate
             pip install -r packages/housing_model/requirements.txt
-            pip install -e packages/housing_model
       - run:
-          name: Train model
+          name: Train model then install as package
           command: |
             source venv/bin/activate
             PYTHONPATH=./packages/housing_model
             python3 packages/housing_model/housingmodel/train_pipeline.py
+            pip install -e packages/housing_model
       - run:
           name: Runnning tests
           command: |
@@ -38,32 +38,33 @@ jobs:
             pytest packages/housing_model/housingmodel/tests
 
   train_and_upload_model:
-    <<: *defaults
+    working_directory: ~/project
+    docker:
+      - image: circleci/python:3.7.4
     steps:
       - checkout
-      - *prepare_venv
       - run:
-          name: Install requirements
+          name: Setup env
           command: |
-            source venv/bin/activate
+            virtualenv venv
+            . venv/bin/activate
             pip install -r packages/housing_model/requirements.txt
             pip install -e packages/housing_model
       - run:
-          name: Train and publish model
+          name: Publish model
           command: |
-            source venv/bin/activate
-            PYTHONPATH=./packages/housing_model
-            python3 packages/housing_model/housingmodel/train_pipeline.py.
+            . venv/bin/activate
             chmod +x ./scripts/publish_model.sh
+            PYTHONPATH=./packages/housing_model
+            python3 packages/housing_model/housingmodel/train_pipeline.py
             ./scripts/publish_model.sh ./packages/housing_model/
 
   test_ml_api_py37:
-    <<: *defaults
+    working_directory: ~/project
+    docker:
+      - image: circleci/python:3.7.4
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - py-deps-{{ checksum "packages/housing_api/requirements.txt" }}
       - run:
           name: Runnning tests
           command: |
@@ -72,10 +73,6 @@ jobs:
             pip install --upgrade pip
             pip install -r packages/housing_api/requirements.txt
             pytest packages/housing_api/housing_api/tests
-      - save_cache:
-          key: py-deps-{{ checksum "packages/ml_api/requirements.txt" }}
-          paths:
-            - "/venv"
 
 workflows:
   version: 2
