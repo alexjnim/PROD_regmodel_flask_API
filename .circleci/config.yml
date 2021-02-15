@@ -16,7 +16,7 @@ jobs:
             pip install -e packages/housing_model
             py.test -vv packages/housing_model/housingmodel/tests
 
-    train_and_upload_regression_model:
+    train_and_upload_model:
       working_directory: ~/project
       docker:
         - image: circleci/python:3.7.2
@@ -45,3 +45,4 @@ workflows:
   test-all:
     jobs:
       - test_model_py37
+      - train_and_upload_model
