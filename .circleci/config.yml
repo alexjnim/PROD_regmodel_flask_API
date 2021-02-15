@@ -16,6 +16,30 @@ jobs:
             pip install -e packages/housing_model
             py.test -vv packages/housing_model/housingmodel/tests
 
+    train_and_upload_regression_model:
+      working_directory: ~/project
+      docker:
+        - image: circleci/python:3.7.2
+      steps:
+        - checkout
+        - run: 
+            name: Setup env
+            command: |
+              virtualenv venv
+              . venv/bin/activate
+              pip install -r packages/housing_model/requirements.txt
+              pip install -e packages/housing_model
+        - run: 
+            name: Publish model
+            command: |
+              . venv/bin/activate
+              chmod +x ./scripts/publish_model.sh
+              PYTHONPATH=./packages/housing_model 
+              python3 packages/housing_model/housingmodel/train_pipeline.py
+              ./scripts/publish_model.sh ./packages/housing_model/
+
+
+
 workflows:
   version: 2
   test-all:
