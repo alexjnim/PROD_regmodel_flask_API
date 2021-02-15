@@ -1,9 +1,7 @@
 import pandas as pd
 from pandas.testing import assert_frame_equal
 import numpy as np
-from packages.housing_model.housingmodel.processing.features import (
-    AddFeature_column1_divide_by_column2,
-)
+from housingmodel.processing.features import AddFeature_column1_divide_by_column2
 
 
 def test_AddFeature_column1_divide_by_column2_should_create_new_columns():
