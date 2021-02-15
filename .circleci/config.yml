@@ -14,7 +14,7 @@ jobs:
             pip install --upgrade pip
             pip install -r packages/housing_model/requirements.txt
             pip install -e packages/housing_model
-            py.test -vv packages/housing_model/housingmodel/tests
+            pytest packages/housing_model/housingmodel/tests
 
   train_and_upload_model:
     working_directory: ~/project
@@ -51,7 +51,7 @@ jobs:
             . venv/bin/activate
             pip install --upgrade pip
             pip install -r packages/housing_api/requirements.txt
-            py.test -vv packages/housing_api/housing_api/tests
+            pytest packages/housing_api/housing_api/tests
 
 workflows:
   version: 2
