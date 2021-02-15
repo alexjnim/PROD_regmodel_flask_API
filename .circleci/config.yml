@@ -24,13 +24,13 @@ jobs:
           command: |
             source venv/bin/activate
             pip install -r packages/housing_model/requirements.txt
-
       - run:
-          name: Train model
+          name: Train model then install as package
           command: |
             source venv/bin/activate
             PYTHONPATH=./packages/housing_model
             python3 packages/housing_model/housingmodel/train_pipeline.py
+            pip install -e packages/housing_model
       - run:
           name: Runnning tests
           command: |
