@@ -1,3 +1,0 @@
-from housingmodel.tests.integration import test_predict
-
-test_predict.test_make_single_prediction()
