@@ -8,14 +8,13 @@ jobs:
       - checkout
       - run:
           name: Runnning tests
+          environment:
+            PYTHONPATH =./project/packages/housing_model
           command: |
             virtualenv venv
             . venv/bin/activate
             pip install --upgrade pip
             pip install -r packages/housing_model/requirements.txt
-          environment:
-            PYTHONPATH =./project/packages/housing_model
-          command: |
             py.test -vv housingmodel/tests
 
 workflows:
