@@ -4,12 +4,11 @@ jobs:
     working_directory: ~/project/
     docker:
       - image: circleci/python:3.7.4
+    environment: PYTHONPATH =./project/packages/housing_model
     steps:
       - checkout
       - run:
           name: Runnning tests
-          environment:
-            PYTHONPATH =./project/packages/housing_model
           command: |
             virtualenv venv
             . venv/bin/activate
