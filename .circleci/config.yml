@@ -1,100 +1,22 @@
 version: 2
-
-defaults: &defaults
-  docker:
-    - image: circleci/python:3.7.4
-  working_directory: ~/project
-
-prepare_venv: &prepare_venv
-  run:
-    name: Create venv
-    command: |
-      python3 -m venv venv
-      source venv/bin/activate
-      pip install --upgrade pip
-
-prepare_tox: &prepare_tox
-  run:
-    name: Install tox
-    command: |
-      sudo pip install --upgrade pip
-      pip install --user tox
-
-# fetch_data: &fetch_data
-#   run:
-#     name: Set script permissions and fetch data
-#     command: |
-#       source venv/bin/activate
-#       # write sh file that contains commands for fetching data if possible
-#       # chmod +x ./scripts/fetch_dataset.sh
-#       # ./scripts/fetch_dataset.sh
-
 jobs:
   test_model_py37:
-    docker:
-      - image: circleci/python:3.7.4
-    working_directory: ~/project/packages/housing_model
-    steps:
-      - checkout:
-          path: ~/project
-      - run:
-          name: Run tests with Python 3.7.4
-          command: |
-            sudo pip install --upgrade pip
-            pip install --user tox
-            tox
-
-  train_and_upload_model:
-    docker:
-      - image: circleci/python:3.7.4
     working_directory: ~/project
-    steps:
-      - checkout:
-      - run:
-          name: Create venv
-          command: |
-            python3 -m venv venv
-            source venv/bin/activate
-            pip install --upgrade pip
-      - run:
-          name: Install requirements
-          command: |
-            source venv/bin/activate
-            pip install -r packages/housing_model/requirements.txt
-      - run:
-          name: Train model
-          command: |
-            source venv/bin/activate
-            PYTHONPATH=./housing_model/
-            python3 packages/housing_model/housingmodel/train_pipeline.py
-      - run:
-          name: Publish model to Gemfury
-          command: |
-            . venv/bin/activate
-            chmod +x ./scripts/publish_model.sh
-            ./scripts/publish_model.sh ./packages/housing_model/
-
-  test_api_py37:
     docker:
       - image: circleci/python:3.7.4
-    working_directory: ~/project/packages/housing_api
     steps:
-      - checkout:
-          path: ~/project
+      - checkout
       - run:
-          name: Run API tests with Python 3.7.4
+          name: Runnning tests
           command: |
-            sudo pip install --upgrade pip
-            pip install --user tox
-            tox
+            virtualenv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            pip install -r packages/housing_model/requirements.txt
+            py.test -vv packages/housing_model/tests
 
 workflows:
   version: 2
   test-all:
     jobs:
       - test_model_py37
-      - test_api_py37
-      - train_and_upload_model
-      # - test_api_py37:
-      #     requires:
-      #       - train_and_upload_model

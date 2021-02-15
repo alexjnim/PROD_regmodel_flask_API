@@ -7,8 +7,6 @@ marshmallow==2.17.0
 # housing regression model
 # /Users/alex.nim@ibm.com/Desktop/pfull_production/packages/housing_model
 
-../housing_model
-
 #housingmodel package uploaded to gemfury
 housingmodel==0.1.0
 
