@@ -1,9 +1,9 @@
 import math
 import pandas as pd
 
-from housingmodel.predict import make_prediction
-from housingmodel.processing.data_management import load_dataset
-from housingmodel.config import config
+from packages.housing_model.housingmodel.predict import make_prediction
+from packages.housing_model.housingmodel.processing.data_management import load_dataset
+from packages.housing_model.housingmodel.config import config
 
 
 def test_make_single_prediction():

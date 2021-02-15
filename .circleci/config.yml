@@ -1,7 +1,7 @@
 version: 2
 jobs:
   test_model_py37:
-    working_directory: ~/project/packages/housing_model
+    working_directory: ~/project/
     docker:
       - image: circleci/python:3.7.4
     steps:
@@ -12,9 +12,8 @@ jobs:
             virtualenv venv
             . venv/bin/activate
             pip install --upgrade pip
-            pip install -r requirements.txt
-            echo $PYTHONPATH
-            py.test -vv housingmodel/tests
+            pip install -r packages/housing_model/requirements.txt
+            py.test -vv packages/housing_model/housingmodel/tests
 
 workflows:
   version: 2
