@@ -51,7 +51,7 @@ jobs:
             . venv/bin/activate
             pip install --upgrade pip
             pip install -r packages/housing_api/requirements.txt
-            py.test -vv packages/housing_api/tests
+            py.test -vv packages/housing_api/housing_api/tests
 
 workflows:
   version: 2
