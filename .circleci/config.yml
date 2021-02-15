@@ -1,19 +1,40 @@
 version: 2
+
+defaults: &defaults
+  docker:
+    - image: circleci/python:3.7.4
+  working_directory: ~/project
+
+prepare_venv: &prepare_venv
+  run:
+    name: Create venv
+    command: |
+      virtualenv venv
+      source venv/bin/activate
+      pip install --upgrade pip
+
 jobs:
   test_model_py37:
-    working_directory: ~/project/
-    docker:
-      - image: circleci/python:3.7.4
+    <<: *defaults
     steps:
       - checkout
+      - *prepare_venv
+      - run:
+          name: Install requirements
+          command: |
+            source venv/bin/activate
+            pip install -r packages/housing_model/requirements.txt
+            pip install -e packages/housing_model
+      - run:
+          name: Train model
+          command: |
+            source venv/bin/activate
+            PYTHONPATH=./packages/housing_model
+            python3 packages/housing_model/housingmodel/train_pipeline.py
       - run:
           name: Runnning tests
           command: |
-            virtualenv venv
-            . venv/bin/activate
-            pip install --upgrade pip
-            pip install -r packages/housing_model/requirements.txt
-            pip install -e packages/housing_model
+            source venv/bin/activate
             pytest packages/housing_model/housingmodel/tests
 
   train_and_upload_model:
