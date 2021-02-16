@@ -17,7 +17,7 @@ def test_make_single_prediction():
     # Then
     assert expect is not None
     assert isinstance(expect.get("predictions")[0], float)
-    # assert math.ceil(expect.get("predictions")[0]) == 112476
+    assert math.ceil(expect.get("predictions")[0]) == 454019
 
 
 def test_make_multiple_predictions():

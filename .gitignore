@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 .circleci/config2.yml
+packages/housing_model/model_venv/
 
 # C extensions
 *.so
