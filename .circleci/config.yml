@@ -6,6 +6,8 @@ jobs:
       - image: circleci/python:3.7.4
     steps:
       - checkout
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "packages/housing_model/requirements.txt" }}
       - run:
           name: Runnning tests
           command: |
@@ -15,6 +17,10 @@ jobs:
             pip install -r packages/housing_model/requirements.txt
             pip install -e packages/housing_model
             pytest packages/housing_model/housingmodel/tests
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "packages/housing_model/requirements.txt" }}
+          paths:
+            - "venv"
 
   train_and_upload_model:
     working_directory: ~/project
@@ -60,10 +66,6 @@ jobs:
       - image: circleci/python:3.7.4
     steps:
       - checkout
-      - run:
-          name: Setup Heroku CLI
-          command: |
-            wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
       - run:
           name: Deploy to Heroku
           command: |
