@@ -1,0 +1,2 @@
+# we only want to deploy the api, so only install api requirements
+-r packages/housing_api/requirements.txt
