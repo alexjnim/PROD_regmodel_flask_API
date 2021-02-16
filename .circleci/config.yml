@@ -53,6 +53,17 @@ jobs:
             pip install -r packages/housing_api/requirements.txt
             pytest packages/housing_api/housing_api/tests
 
+
+  deploy_to_heroku:
+    working_directory: ~/project
+    docker:
+      - image: circleci/python:3.7.4
+    steps:
+      - checkout
+      - run:
+          name: Deploy to Heroku
+          command: |
+            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
 workflows:
   version: 2
   test-all:
@@ -60,6 +71,19 @@ workflows:
       - test_model_py37
       - train_and_upload_model
       - test_ml_api_py37
+      - deploy_to_heroku
       - test_ml_api_py37:
           requires:
             - train_and_upload_model
+          filters:
+            branches:
+              only:
+                - master
+      - deploy_to_heroku:
+          requires:
+            - train_and_upload_regression_model
+          filters:
+            branches:
+              only:
+                - master
+
