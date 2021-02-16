@@ -81,7 +81,7 @@ workflows:
                 - master
       - deploy_to_heroku:
           requires:
-            - train_and_upload_regression_model
+            - train_and_upload_model
           filters:
             branches:
               only:
