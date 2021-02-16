@@ -28,6 +28,8 @@ jobs:
       - image: circleci/python:3.7.4
     steps:
       - checkout
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "packages/housing_model/requirements.txt" }}
       - run:
           name: Setup env
           command: |
@@ -43,6 +45,10 @@ jobs:
             PYTHONPATH=./packages/housing_model
             python3 packages/housing_model/housingmodel/train_pipeline.py
             ./scripts/publish_model.sh ./packages/housing_model/
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "packages/housing_model/requirements.txt" }}
+          paths:
+            - "venv"
 
   test_ml_api_py37:
     working_directory: ~/project
@@ -50,6 +56,8 @@ jobs:
       - image: circleci/python:3.7.4
     steps:
       - checkout
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "packages/housing_api/requirements.txt" }}
       - run:
           name: Runnning tests
           command: |
@@ -58,6 +66,10 @@ jobs:
             pip install --upgrade pip
             pip install -r packages/housing_api/requirements.txt
             pytest packages/housing_api/housing_api/tests
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "packages/housing_api/requirements.txt" }}
+          paths:
+            - "venv"
 
 
   deploy_to_heroku:
@@ -70,6 +82,9 @@ jobs:
           name: Deploy to Heroku
           command: |
             git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+
+
+
 workflows:
   version: 2
   test-all:
