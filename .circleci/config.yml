@@ -75,15 +75,15 @@ workflows:
       - test_ml_api_py37:
           requires:
             - train_and_upload_model
-          filters:
-            branches:
-              only:
-                - master
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
       - deploy_to_heroku:
           requires:
             - train_and_upload_model
-          filters:
-            branches:
-              only:
-                - master
+          # filters:
+          #   branches:
+          #     only:
+          #       - master
 
