@@ -61,6 +61,10 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Setup Heroku CLI
+          command: |
+            wget -qO- https://cli-assets.heroku.com/install-ubuntu.sh | sh
+      - run:
           name: Deploy to Heroku
           command: |
             git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
