@@ -29,7 +29,7 @@ def make_prediction(
         Predictions for each input row, as well as the model version.
     """
 
-    #makes sure that we have a pandas dataframe
+    # makes sure that we have a pandas dataframe
     def get_dataframe(input_data):
         if type(input_data) is pd.core.frame.DataFrame:
             return input_data
@@ -37,7 +37,7 @@ def make_prediction(
             return pd.DataFrame(input_data)
 
     input_data = get_dataframe(input_data)
-    
+
     data = pd.DataFrame(input_data)
     validated_data = validate_inputs(input_data=data)
 
