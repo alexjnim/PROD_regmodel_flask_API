@@ -72,7 +72,7 @@ def test_prediction_validation(
     )
 
     # Then
-    # assert response.status_code == 400
+    assert response.status_code == 200
     response_json = json.loads(response.data)
     print(response_json)
     assert response_json["errors"] == expected_error
