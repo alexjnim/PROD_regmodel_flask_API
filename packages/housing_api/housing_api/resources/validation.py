@@ -43,7 +43,7 @@ def _filter_error_rows(errors: dict, validated_input: t.List[dict]) -> t.List[di
 
 def validate_inputs(input_data):
     """Check prediction inputs against schema."""
-
+    print(len(input_data))
     # set many=True to allow passing in a list
     schema = HouseDataRequestSchema(many=True)
 
@@ -61,7 +61,8 @@ def validate_inputs(input_data):
         validated_input = _filter_error_rows(errors=errors, validated_input=input_data)
     else:
         validated_input = input_data
-    validated_input = input_data
+    # validated_input = input_data
+    print(len(validated_input))
     return validated_input, errors
 
 

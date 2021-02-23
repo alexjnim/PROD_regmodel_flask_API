@@ -56,7 +56,7 @@ def test_prediction_endpoint_validation_200(flask_test_client):
         ),
         (
             "total_bedrooms",
-            "string",  # expected float
+            "",  # expected float
             2,
             {"2": {"total_bedrooms": ["Not a valid number."]}},
         ),
