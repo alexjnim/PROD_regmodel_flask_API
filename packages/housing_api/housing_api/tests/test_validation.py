@@ -33,30 +33,30 @@ def test_prediction_endpoint_validation_200(flask_test_client):
 # parameterizationa allows us to try many combinations of data
 # within the same test, see the pytest docs for details:
 # https://docs.pytest.org/en/latest/parametrize.html
-@pytest.mark.parametrize(
-    "field, field_value, index, expected_error",
-    (
-        (
-            "longitude",
-            "hello",  # expected float
-            0,
-            {"0": {"longitude": ["Not a valid number."]}},
-        ),
-        (
-            "ocean_proximity",  # model feature
-            12.0,  # expected string
-            45,
-            {"45": {"ocean_proximity": ["Not a valid string."]}},
-        ),
-        (
-            "households",
-            np.nan,  # nan not allowed
-            34,
-            {"34": {"households": ["Field may not be null."]}},
-        ),
-        ("total_bedrooms", "", 2, {"2": {"total_bedrooms": ["Not a valid number."]}}),
-    ),
-)
+# @pytest.mark.parametrize(
+#     "field, field_value, index, expected_error",
+#     (
+#         (
+#             "longitude",
+#             "hello",  # expected float
+#             0,
+#             {"0": {"longitude": ["Not a valid number."]}},
+#         ),
+#         (
+#             "ocean_proximity",  # model feature
+#             12.0,  # expected string
+#             45,
+#             {"45": {"ocean_proximity": ["Not a valid string."]}},
+#         ),
+#         (
+#             "households",
+#             np.nan,  # nan not allowed
+#             34,
+#             {"34": {"households": ["Field may not be null."]}},
+#         ),
+#         ("total_bedrooms", "", 2, {"2": {"total_bedrooms": ["Not a valid number."]}}),
+#     ),
+# )
 # def test_prediction_validation(
 #     field, field_value, index, expected_error, flask_test_client
 # ):
