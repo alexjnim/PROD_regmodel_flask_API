@@ -57,22 +57,22 @@ def test_prediction_endpoint_validation_200(flask_test_client):
         ("total_bedrooms", "", 2, {"2": {"total_bedrooms": ["Not a valid number."]}}),
     ),
 )
-def test_prediction_validation(
-    field, field_value, index, expected_error, flask_test_client
-):
-    # Given
-    # In this test, inputs are changed to incorrect values to check the validation.
-    test_data = load_dataset(file_name=model_config.TESTING_DATA_FILE)
-    test_data.loc[index, field] = field_value
-    post_json = test_data.to_json(orient="records")
+# def test_prediction_validation(
+#     field, field_value, index, expected_error, flask_test_client
+# ):
+#     # Given
+#     # In this test, inputs are changed to incorrect values to check the validation.
+#     test_data = load_dataset(file_name=model_config.TESTING_DATA_FILE)
+#     test_data.loc[index, field] = field_value
+#     post_json = test_data.to_json(orient="records")
 
-    # When
-    response = flask_test_client.post(
-        "/v1/predict/regression", json=json.loads(post_json)
-    )
+#     # When
+#     response = flask_test_client.post(
+#         "/v1/predict/regression", json=json.loads(post_json)
+#     )
 
-    # Then
-    assert response.status_code == 200
-    response_json = json.loads(response.data)
-    print(response_json)
-    assert response_json["errors"] == expected_error
+#     # Then
+#     assert response.status_code == 200
+#     response_json = json.loads(response.data)
+#     print(response_json)
+#     assert response_json["errors"] == expected_error
