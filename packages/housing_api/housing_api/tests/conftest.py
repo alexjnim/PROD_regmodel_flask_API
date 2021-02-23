@@ -12,6 +12,7 @@ def app():
         yield app
 
 
+# pass the app fixture into flask_test_client fixture to create flask test_client
 @pytest.fixture
 def flask_test_client(app):
     with app.test_client() as test_client:
